@@ -1,5 +1,119 @@
 import React, { useState } from 'react';
 
+// Simple styled components using template literals
+const Container = ({ children }) => (
+  <div style={{
+    padding: '2rem',
+    display: 'flex',
+    gap: '2rem',
+    flexWrap: 'wrap',
+    fontFamily: 'system-ui, sans-serif'
+  }}>
+    {children}
+  </div>
+);
+
+const AuthCard = ({ children }) => (
+  <div style={{
+    width: '320px',
+    padding: '1.5rem',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    backgroundColor: 'white',
+    border: '1px solid #e5e7eb'
+  }}>
+    {children}
+  </div>
+);
+
+const Title = ({ children }) => (
+  <h2 style={{
+    fontSize: '1.25rem',
+    fontWeight: '600',
+    marginBottom: '1.5rem',
+    color: '#1f2937'
+  }}>
+    {children}
+  </h2>
+);
+
+const Input = ({ ...props }) => (
+  <input
+    style={{
+      width: '100%',
+      padding: '0.75rem',
+      marginBottom: '1rem',
+      borderRadius: '6px',
+      border: '1px solid #d1d5db',
+      fontSize: '0.875rem',
+      outline: 'none',
+      transition: 'border-color 0.2s',
+      ':focus': {
+        borderColor: '#3b82f6'
+      }
+    }}
+    {...props}
+  />
+);
+
+const Button = ({ children, ...props }) => (
+  <button
+    style={{
+      width: '100%',
+      padding: '0.75rem',
+      backgroundColor: '#3b82f6',
+      color: 'white',
+      border: 'none',
+      borderRadius: '6px',
+      fontSize: '0.875rem',
+      fontWeight: '500',
+      cursor: 'pointer',
+      transition: 'background-color 0.2s',
+      ':hover': {
+        backgroundColor: '#2563eb'
+      },
+      ':disabled': {
+        backgroundColor: '#93c5fd',
+        cursor: 'not-allowed'
+      }
+    }}
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+const Message = ({ type, children }) => {
+  const colors = {
+    error: '#ef4444',
+    success: '#10b981',
+    info: '#3b82f6'
+  };
+
+  return (
+    <p style={{
+      fontSize: '0.875rem',
+      color: colors[type] || '#6b7280',
+      marginTop: '0.75rem'
+    }}>
+      {children}
+    </p>
+  );
+};
+
+const DebugView = ({ data }) => (
+  <pre style={{
+    marginTop: '1rem',
+    padding: '0.75rem',
+    backgroundColor: '#f3f4f6',
+    borderRadius: '6px',
+    fontSize: '0.75rem',
+    overflowX: 'auto'
+  }}>
+    {JSON.stringify(data, null, 2)}
+  </pre>
+);
+
 // Mock credentials for demo
 const validCredentials = {
   username: "demo",
@@ -14,7 +128,6 @@ const TraditionalAuth = () => {
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    // Simple boolean logic - either logged in or not
     if (username === validCredentials.username && 
         password === validCredentials.password) {
       setIsLoggedIn(true);
@@ -25,61 +138,52 @@ const TraditionalAuth = () => {
   };
 
   return (
-    <div className="w-80 p-6 border rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-4">Traditional Auth</h2>
+    <AuthCard>
+      <Title>Traditional Auth</Title>
       {!isLoggedIn ? (
-        <div className="space-y-4">
-          <input
+        <>
+          <Input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
-            className="w-full p-2 border rounded"
           />
-          <input
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="w-full p-2 border rounded"
           />
-          <button
-            onClick={handleLogin}
-            className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Login
-          </button>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-        </div>
+          <Button onClick={handleLogin}>Login</Button>
+          {error && <Message type="error">{error}</Message>}
+        </>
       ) : (
-        <p className="text-green-500">Logged in successfully!</p>
+        <Message type="success">Logged in successfully!</Message>
       )}
-    </div>
+    </AuthCard>
   );
 };
 
 // PnR Approach Component using Trivalence
 const PnRAuth = () => {
-  // PnR state with trivalent values
   const [pnrState, setPnrState] = useState({
     credentials: {
       name: "auth_credentials",
-      value: ["", "U"]  // U = Undecided/Not yet validated
+      value: ["", "U"]
     },
     validation: {
       name: "auth_validation",
-      value: ["", "U"]  // Will be Y/N/U for Valid/Invalid/Checking
+      value: ["", "U"]
     },
     session: {
       name: "auth_session",
-      value: ["", "U"]  // Will track session state
+      value: ["", "U"]
     }
   });
 
   const [formInput, setFormInput] = useState({ username: "", password: "" });
 
   const handlePnRLogin = () => {
-    // First, mark credentials as being checked
     setPnrState(prev => ({
       ...prev,
       credentials: {
@@ -92,7 +196,6 @@ const PnRAuth = () => {
       }
     }));
 
-    // Simulate async validation
     setTimeout(() => {
       if (formInput.username === validCredentials.username && 
           formInput.password === validCredentials.password) {
@@ -135,67 +238,61 @@ const PnRAuth = () => {
     return "";
   };
 
+  const getMessageType = () => {
+    const { validation } = pnrState;
+    if (validation.value[1] === "U") return "info";
+    if (validation.value[1] === "N") return "error";
+    return "success";
+  };
+
   return (
-    <div className="w-80 p-6 border rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-4">PnR Auth</h2>
-      <div className="space-y-4">
-        <input
-          type="text"
-          value={formInput.username}
-          onChange={(e) => setFormInput(prev => ({ 
-            ...prev, 
-            username: e.target.value 
-          }))}
-          placeholder="Username"
-          className="w-full p-2 border rounded"
-          disabled={pnrState.validation.value[1] === "Y"}
-        />
-        <input
-          type="password"
-          value={formInput.password}
-          onChange={(e) => setFormInput(prev => ({ 
-            ...prev, 
-            password: e.target.value 
-          }))}
-          placeholder="Password"
-          className="w-full p-2 border rounded"
-          disabled={pnrState.validation.value[1] === "Y"}
-        />
-        <button
-          onClick={handlePnRLogin}
-          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          disabled={pnrState.validation.value[1] === "Y"}
-        >
-          Login
-        </button>
-        <div className="text-sm">
-          {pnrState.validation.value[1] === "U" && (
-            <p className="text-blue-500">{getStatusMessage()}</p>
-          )}
-          {pnrState.validation.value[1] === "N" && (
-            <p className="text-red-500">{getStatusMessage()}</p>
-          )}
-          {pnrState.validation.value[1] === "Y" && (
-            <p className="text-green-500">{getStatusMessage()}</p>
-          )}
-        </div>
-        
-        {/* Debug view of PnR state */}
-        <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
-          <pre>{JSON.stringify(pnrState, null, 2)}</pre>
-        </div>
-      </div>
-    </div>
+    <AuthCard>
+      <Title>PnR Auth</Title>
+      <Input
+        type="text"
+        value={formInput.username}
+        onChange={(e) => setFormInput(prev => ({ 
+          ...prev, 
+          username: e.target.value 
+        }))}
+        placeholder="Username"
+        disabled={pnrState.validation.value[1] === "Y"}
+      />
+      <Input
+        type="password"
+        value={formInput.password}
+        onChange={(e) => setFormInput(prev => ({ 
+          ...prev, 
+          password: e.target.value 
+        }))}
+        placeholder="Password"
+        disabled={pnrState.validation.value[1] === "Y"}
+      />
+      <Button
+        onClick={handlePnRLogin}
+        disabled={pnrState.validation.value[1] === "Y"}
+      >
+        Login
+      </Button>
+      
+      {getStatusMessage() && (
+        <Message type={getMessageType()}>
+          {getStatusMessage()}
+        </Message>
+      )}
+      
+      <DebugView data={pnrState} />
+    </AuthCard>
   );
 };
 
-// Container component to show both approaches
+// Main component
 const AuthComparison = () => {
   return (
-    <div className="p-8 flex gap-8 flex-wrap">
+    <Container>
       <TraditionalAuth />
       <PnRAuth />
-    </div>
+    </Container>
   );
 };
 
