@@ -1,0 +1,17 @@
+Create a .env file with their OpenAI API key:
+
+OPENAI_API_KEY=your-key-here
+
+Create a virtual environment and install requirements for each day:
+
+pip install langchain openai python-dotenv pyyaml
+
+
+
+This progression 
+
+Day 1: Get familiar with basic LangChain concepts
+Day 2: Understand memory and conversation chains
+Day 3: Learn about persistence and file handling
+Day 4: Master session management and context
+Day 5: Work with configuration and command processing
