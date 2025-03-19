@@ -1,0 +1,8 @@
+# Create virtual environment
+python -m venv langchain-chat
+source langchain-chat/bin/activate  # For Unix/Mac
+# or
+.\langchain-chat\Scripts\activate  # For Windows
+
+# Install basic requirements
+pip install langchain langchain-openai langchain-community python-dotenv
