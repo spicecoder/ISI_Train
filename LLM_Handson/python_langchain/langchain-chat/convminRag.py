@@ -7,9 +7,23 @@ from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import ConversationalRetrievalChain
 
-# 1. Load personal notes
-loader = TextLoader("my_vision.txt")
-docs = loader.load()
+# # 1. Load personal notes
+# loader = TextLoader("my_vision.txt")
+# docs = loader.load()
+# from langchain_community.document_loaders import TextLoader
+# loader = TextLoader("my_vision.txt", encoding="utf-8")
+from langchain_core.documents import Document
+
+# Load and clean file manually
+with open("my_vision.txt", "r", encoding="utf-8", errors="ignore") as f:
+    raw_text = f.read()
+
+# Optional: strip non-ASCII chars (if you want to be very clean)
+# raw_text = raw_text.encode("ascii", errors="ignore").decode()
+
+# Wrap into LangChain document
+docs = [Document(page_content=raw_text)]
+
 
 # 2. Split into chunks
 splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
