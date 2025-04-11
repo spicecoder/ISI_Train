@@ -1,0 +1,10 @@
+ets create a reactjs software component called IDPulse that has the following pulses (along with associated order ) 
+Pulses: 
+         [{"id": "p1", "name" : "what is your name" , "TV": "U",'order':1},
+         {"id": "p2", "name" : "What. is your address" , "TV": "U",'order':2}], 
+         {"id": "p3", "name" : "What. is your avatar" , "TV": "U",'order':3}],
+         {"id": "p4", "name" : "What. is your background" , "TV": "U",'order':4}] ; here TV is the state of the pulse   .
+ So when the software component in instantiated , it goes through its pulses in the order specified. For each of the pulse which has a 'U' status , it throws a dialogue with the pulse text and solicits a response from user (there is one dialog for each pulse,in order turn) , the response can be a string which can be a file name, if it is a file name the component gets the file content in the pulse response.
+ Once it successfully gets a response from each of the pulse dialog , it store the corresponding response and updates its state as 'Y' ; 
+ When all pulse are in a state of 'Y' , it renders a  ID card with the avatar on the top right , name in the top middle , and with the card background as specified in p4 .It also gives a nice border to the card.
+ Can you create this component as a very simple act through react JS ,using just standard CSS ,no shard library or Tailwind or any library .  Whenthe component asks for a file ,as in p3,p4 you can give a file choosing option in the dialog.  Make so that the developer can change or add more pulse as needed, but all following the same basic interaction pattern
