@@ -1,0 +1,87 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="500" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#333333" font-weight="bold">Force in Physics: F = ma</text>
+  
+  <!-- Force illustration 1: Push -->
+  <g transform="translate(180, 180)">
+    <!-- Surface -->
+    <rect x="-150" y="50" width="400" height="10" fill="#888888"/>
+    
+    <!-- Box -->
+    <rect x="0" y="0" width="80" height="50" fill="#4285f4" stroke="#2956a3" stroke-width="2"/>
+    
+    <!-- Person -->
+    <g transform="translate(-70, 20)">
+      <!-- Body -->
+      <circle cx="0" cy="-15" r="15" fill="#fbbc05"/>
+      <line x1="0" y1="0" x2="0" y2="30" stroke="#fbbc05" stroke-width="10" stroke-linecap="round"/>
+      <line x1="0" y1="15" x2="-15" y2="5" stroke="#fbbc05" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="30" x2="-10" y2="50" stroke="#fbbc05" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="30" x2="10" y2="50" stroke="#fbbc05" stroke-width="6" stroke-linecap="round"/>
+      
+      <!-- Arm pushing -->
+      <line x1="0" y1="15" x2="25" y2="20" stroke="#fbbc05" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Force arrow -->
+    <g>
+      <line x1="-40" y1="25" x2="0" y2="25" stroke="#ea4335" stroke-width="4" marker-end="url(#arrowhead)"/>
+      <text x="-20" y="20" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#ea4335" font-weight="bold">F</text>
+    </g>
+    
+    <!-- Acceleration arrow -->
+    <g>
+      <line x1="120" y1="25" x2="180" y2="25" stroke="#34a853" stroke-width="4" marker-end="url(#arrowhead)"/>
+      <text x="150" y="20" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#34a853" font-weight="bold">a</text>
+    </g>
+    
+    <!-- Mass label -->
+    <text x="40" y="30" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="white" font-weight="bold">m</text>
+  </g>
+  
+  <!-- Force illustration 2: Gravity -->
+  <g transform="translate(600, 180)">
+    <!-- Ground -->
+    <rect x="-80" y="130" width="160" height="20" fill="#888888"/>
+    
+    <!-- Ball -->
+    <circle cx="0" cy="0" r="30" fill="#34a853" stroke="#2e7d32" stroke-width="2"/>
+    
+    <!-- Force arrow (gravity) -->
+    <g>
+      <line x1="0" y1="40" x2="0" y2="100" stroke="#ea4335" stroke-width="4" marker-end="url(#arrowhead)"/>
+      <text x="15" y="70" font-family="Arial, sans-serif" font-size="16" fill="#ea4335" font-weight="bold">F = mg</text>
+    </g>
+    
+    <!-- Acceleration arrow -->
+    <line x1="40" y1="40" x2="40" y2="100" stroke="#4285f4" stroke-width="4" marker-end="url(#arrowhead)"/>
+    <text x="55" y="70" font-family="Arial, sans-serif" font-size="16" fill="#4285f4" font-weight="bold">a = g</text>
+    
+    <!-- Mass label -->
+    <text x="0" y="5" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="white" font-weight="bold">m</text>
+  </g>
+  
+  <!-- Newton's Second Law -->
+  <g transform="translate(400, 350)">
+    <rect x="-200" y="-40" width="400" height="80" rx="10" fill="#f1f3f4" stroke="#dadce0" stroke-width="2"/>
+    <text x="0" y="-10" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#333333" font-weight="bold">Newton's Second Law</text>
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333333">F = ma</text>
+  </g>
+  
+  <!-- Key Points -->
+  <g transform="translate(400, 440)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333333">• Force is measured in newtons (N)</text>
+    <text x="0" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333333">• Force is a vector (has magnitude and direction)</text>
+    <text x="0" y="50" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333333">• 1 newton = 1 kg·m/s²</text>
+  </g>
+  
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+</svg>
