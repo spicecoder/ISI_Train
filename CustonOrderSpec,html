@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Dish Request Feature Specification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            font-size: 1.2em;
+        }
+        
+        h4 {
+            color: #7f8c8d;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .status-table th, .status-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .status-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .status-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .flow-step {
+            background-color: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .flow-step h5 {
+            margin: 0 0 10px 0;
+            color: #2980b9;
+            font-size: 1.1em;
+        }
+        
+        .highlight-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .document-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        @media print {
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            h1 {
+                font-size: 18pt;
+            }
+            
+            h2 {
+                font-size: 14pt;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-info">
+    <h1 class="center">Custom Dish Request Feature Specification</h1>
+    <div class="center">
+        <strong>Project:</strong> Colab Kitchen Platform<br>
+        <strong>Feature:</strong> Custom Dish Request System<br>
+        <strong>Version:</strong> 1.0<br>
+        <strong>Date:</strong> December 2024<br>
+        <strong>Status:</strong> Development Ready
+    </div>
+</div>
+
+<h2>1. Overview</h2>
+<p>The Custom Dish Request feature allows users to request specific dishes that are not currently available on the platform. These requests go through an admin approval process and can either be made available for public bidding by cooks or directly assigned to specific cooks by administrators.</p>
+
+<div class="highlight-box">
+    <strong>Key Benefits:</strong>
+    <ul>
+        <li>Expands platform offerings beyond current inventory</li>
+        <li>Allows for personalized culinary experiences</li>
+        <li>Creates new revenue opportunities for cooks</li>
+        <li>Provides admin control over custom request quality</li>
+    </ul>
+</div>
+
+<h2>2. User Roles & Permissions</h2>
+
+<h3>2.1 Requesters (Regular Users)</h3>
+<ul>
+    <li>Create custom dish requests</li>
+    <li>View and manage their requests</li>
+    <li>Review and accept/reject offers</li>
+    <li>Make payments for accepted offers</li>
+    <li>Track order progress</li>
+</ul>
+
+<h3>2.2 Cooks</h3>
+<ul>
+    <li>Browse approved custom requests</li>
+    <li>Make offers on requests</li>
+    <li>Accept direct assignments from admin</li>
+    <li>Manage assigned custom orders</li>
+    <li>Update order status during preparation</li>
+</ul>
+
+<h3>2.3 Administrators</h3>
+<ul>
+    <li>Review and approve/reject custom requests</li>
+    <li>Directly assign requests to specific cooks</li>
+    <li>Set prices and quantities for direct assignments</li>
+    <li>Handle disputes and cancellations</li>
+    <li>Monitor custom request analytics</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>3. Detailed User Flow</h2>
+
+<h3>3.1 Phase 1: Custom Dish Request Creation</h3>
+
+<div class="flow-step">
+    <h5>Step 1.1: Requester Creates Request</h5>
+    <p><strong>Location:</strong> My Kitchen → Add Dish → Select "Custom Dish Request"</p>
+    <p><strong>Required Fields:</strong></p>
+    <ul>
+        <li>Dish title & description</li>
+        <li>Category selection</li>
+        <li>Quantity specification:
+            <ul>
+                <li>By count: "2-5 portions"</li>
+                <li>By weight: "1-2 kg"</li>
+            </ul>
+        </li>
+        <li>Preferred delivery date range: "Dec 15-20, 2024"</li>
+        <li>Location/pickup address</li>
+        <li>Special instructions (optional)</li>
+    </ul>
+    <p><strong>Initial Status:</strong> <code>PENDING_ADMIN_APPROVAL</code></p>
+</div>
+
+<div class="flow-step">
+    <h5>Step 1.2: Admin Review Process</h5>
+    <p><strong>Admin Dashboard:</strong> New section for pending custom requests</p>
+    <p><strong>Admin Actions:</strong></p>
+    <ul>
+        <li><strong>Option A:</strong> Approve → Request goes to "Browse Custom Requests" page</li>
+        <li><strong>Option B:</strong> Direct Assignment → Admin assigns to specific cook with:
+            <ul>
+                <li>Set price</li>
+                <li>Set quantity</li>
+                <li>Set delivery date</li>
+                <li>Status becomes <code>ADMIN_ASSIGNED</code></li>
+            </ul>
+        </li>
+        <li><strong>Option C:</strong> Reject → Request deleted with reason sent to requester</li>
+    </ul>
+</div>
+
+<h3>3.2 Phase 2A: Public Custom Request Flow (Admin Approved)</h3>
+
+<div class="flow-step">
+    <h5>Step 2A.1: Request Goes Public</h5>
+    <p><strong>Status:</strong> <code>ACTIVE_FOR_OFFERS</code></p>
+    <p><strong>Visibility:</strong> All verified cooks in the area</p>
+    <p><strong>Display Information:</strong> Title, description, quantity range, delivery date range, location</p>
+</div>
+
+<div class="flow-step">
+    <h5>Step 2A.2: Cooks Make Offers</h5>
+    <p><strong>Offer Details Required:</strong></p>
+    <ul>
+        <li>Price per unit/kg</li>
+        <li>Quantity they can provide (within requested range)</li>
+        <li>Proposed delivery date (within requested range)</li>
+        <li>Estimated preparation time</li>
+        <li>Additional notes</li>
+    </ul>
+    <p><strong>Status:</strong> Each offer marked as <code>PENDING</code></p>
+</div>
+
+<div class="flow-step">
+    <h5>Step 2A.3: Requester Reviews Offers</h5>
+    <p><strong>Location:</strong> My Requests page</p>
+    <p><strong>Available Actions:</strong></p>
+    <ul>
+        <li>View all offers for their requests</li>
+        <li>Accept one offer → Status becomes <code>OFFER_ACCEPTED</code></li>
+        <li>Reject individual offers</li>
+        <li>Request modifications through messaging</li>
+        <li>Cancel entire request</li>
+    </ul>
+</div>
+
+<h3>3.3 Phase 2B: Direct Assignment Flow (Admin Assigned)</h3>
+
+<div class="flow-step">
+    <h5>Step 2B.1: Cook Receives Direct Assignment</h5>
+    <p><strong>Notification:</strong> Cook gets notification of direct assignment</p>
+    <p><strong>Cook Actions:</strong></p>
+    <ul>
+        <li>Accept assignment → Status becomes <code>ASSIGNMENT_ACCEPTED</code></li>
+        <li>Decline assignment → Returns to admin for reassignment</li>
+    </ul>
+    <p><strong>Visibility:</strong> Request doesn't appear on public browse page</p>
+</div>
+
+<h3>3.4 Phase 3: Order Processing (Both Flows Converge)</h3>
+
+<div class="flow-step">
+    <h5>Step 3.1: Payment Processing</h5>
+    <p><strong>Trigger:</strong> When offer accepted or assignment accepted</p>
+    <p><strong>Payment:</strong> Full amount paid upfront</p>
+    <p><strong>Status:</strong> <code>PAYMENT_COMPLETED</code></p>
+</div>
+
+<div class="flow-step">
+    <h5>Step 3.2: Order Activation</h5>
+    <ul>
+        <li><strong>Requester:</strong> Order appears in "My Orders" with status <code>IN_PROGRESS</code></li>
+        <li><strong>Cook:</strong> Order appears in "My Sales" with status <code>TO_PREPARE</code></li>
+        <li><strong>Communication:</strong> Buyer-cook chat system activated for coordination</li>
+    </ul>
+</div>
+
+<div class="flow-step">
+    <h5>Step 3.3: Order Fulfillment</h5>
+    <ul>
+        <li><strong>Cook Updates:</strong> Can update status to <code>PREPARING</code>, <code>READY_FOR_PICKUP</code></li>
+        <li><strong>Completion:</strong> Both parties confirm completion</li>
+        <li><strong>Final Status:</strong> <code>COMPLETED</code></li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h2>4. Status Definitions & Transitions</h2>
+
+<table class="status-table">
+    <tr>
+        <th>Status</th>
+        <th>Description</th>
+        <th>Next Possible States</th>
+        <th>Duration/Timing</th>
+    </tr>
+    <tr>
+        <td><code>PENDING_ADMIN_APPROVAL</code></td>
+        <td>Initial state after requester submits</td>
+        <td>ACTIVE_FOR_OFFERS, ADMIN_ASSIGNED, REJECTED</td>
+        <td>No time limit</td>
+    </tr>
+    <tr>
+        <td><code>ACTIVE_FOR_OFFERS</code></td>
+        <td>Public request awaiting cook offers</td>
+        <td>HAS_PENDING_OFFERS, EXPIRED_NO_OFFERS, USER_CANCELLED</td>
+        <td>30 days maximum</td>
+    </tr>
+    <tr>
+        <td><code>HAS_PENDING_OFFERS</code></td>
+        <td>One or more offers received</td>
+        <td>OFFER_ACCEPTED, OFFERS_EXPIRED, USER_CANCELLED</td>
+        <td>7 days for decision</td>
+    </tr>
+    <tr>
+        <td><code>ADMIN_ASSIGNED</code></td>
+        <td>Admin directly assigned to specific cook</td>
+        <td>ASSIGNMENT_ACCEPTED, ASSIGNMENT_DECLINED, ASSIGNMENT_EXPIRED</td>
+        <td>48 hours response time</td>
+    </tr>
+    <tr>
+        <td><code>OFFER_ACCEPTED</code></td>
+        <td>Requester accepted a cook's offer</td>
+        <td>PAYMENT_COMPLETED, PAYMENT_FAILED</td>
+        <td>1 hour payment window</td>
+    </tr>
+    <tr>
+        <td><code>ASSIGNMENT_ACCEPTED</code></td>
+        <td>Cook accepted direct assignment</td>
+        <td>PAYMENT_COMPLETED, PAYMENT_FAILED</td>
+        <td>1 hour payment window</td>
+    </tr>
+    <tr>
+        <td><code>PAYMENT_COMPLETED</code></td>
+        <td>Payment successful, order active</td>
+        <td>IN_PROGRESS, EARLY_CANCELLATION</td>
+        <td>24 hours for early cancellation</td>
+    </tr>
+    <tr>
+        <td><code>IN_PROGRESS</code></td>
+        <td>Cook preparing the dish</td>
+        <td>PREPARING, COOK_CANCELLED, LATE_CANCELLATION</td>
+        <td>Based on agreed timeline</td>
+    </tr>
+    <tr>
+        <td><code>PREPARING</code></td>
+        <td>Cook actively preparing</td>
+        <td>READY_FOR_PICKUP, COOK_CANCELLED</td>
+        <td>Based on estimated prep time</td>
+    </tr>
+    <tr>
+        <td><code>READY_FOR_PICKUP</code></td>
+        <td>Dish ready for collection</td>
+        <td>COMPLETED, DISPUTED</td>
+        <td>Pickup window as agreed</td>
+    </tr>
+    <tr>
+        <td><code>COMPLETED</code></td>
+        <td>Successfully completed transaction</td>
+        <td>Final state</td>
+        <td>N/A</td>
+    </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>5. Database Schema Changes</h2>
+
+<h3>5.1 CustomDishRequest Collection</h3>
+<div class="code-block">
+{
+  _id: ObjectId,
+  requesterId: String,
+  title: String,
+  description: String,
+  category: String,
+  quantity: {
+    type: String, // "count" or "weight"
+    min: Number,
+    max: Number,
+    unit: String // "portions", "kg", "grams"
+  },
+  deliveryDateRange: {
+    startDate: Date,
+    endDate: Date
+  },
+  location: {
+    lat: Number, 
+    lng: Number
+  },
+  address: String,
+  specialInstructions: String,
+  status: String, // See status definitions above
+  adminAssignment: {
+    cookId: String,
+    price: Number,
+    quantity: Number,
+    deliveryDate: Date,
+    assignedBy: String, // Admin ID
+    assignedAt: Date
+  },
+  offers: [ObjectId], // References to Offer collection
+  createdAt: Date,
+  approvedAt: Date,
+  expiredAt: Date
+}
+</div>
+
+<h3>5.2 Offer Collection</h3>
+<div class="code-block">
+{
+  _id: ObjectId,
+  requestId: ObjectId,
+  cookId: String,
+  price: Number,
+  quantity: Number,
+  proposedDeliveryDate: Date,
+  estimatedPrepTime: String,
+  notes: String,
+  status: String, // PENDING, ACCEPTED, REJECTED, WITHDRAWN, EXPIRED
+  createdAt: Date,
+  expiresAt: Date,
+  acceptedAt: Date,
+  rejectedAt: Date
+}
+</div>
+
+<h3>5.3 CustomOrder Collection (Extension of existing Order)</h3>
+<div class="code-block">
+{
+  _id: ObjectId,
+  type: "CUSTOM_DISH", // Distinguishes from regular orders
+  originalRequestId: ObjectId,
+  acceptedOfferId: ObjectId, // For public offers
+  customerId: String,
+  cookId: String,
+  dishDetails: {
+    title: String,
+    description: String,
+    category: String,
+    agreedQuantity: Number,
+    agreedPrice: Number,
+    deliveryDate: Date
+  },
+  status: String, // Same as regular orders
+  paymentDetails: Object,
+  chatRoomId: String,
+  createdAt: Date,
+  completedAt: Date
+}
+</div>
+
+<div class="page-break"></div>
+
+<h2>6. New Pages & Components Required</h2>
+
+<h3>6.1 Browse Custom Requests (Public page for cooks)</h3>
+<div class="success-box">
+    <strong>Purpose:</strong> Allow cooks to view and make offers on approved custom requests<br>
+    <strong>URL:</strong> <code>/custom-requests</code><br>
+    <strong>Access:</strong> Verified cooks only
+</div>
+
+<p><strong>Features:</strong></p>
+<ul>
+    <li>Filter by: location, category, delivery date, quantity range</li>
+    <li>Sort by: newest, closest, price range</li>
+    <li>Display: request cards with key details</li>
+    <li>Action: "Make Offer" button</li>
+    <li>Search functionality</li>
+</ul>
+
+<h3>6.2 My Requests (For requesters)</h3>
+<div class="success-box">
+    <strong>Purpose:</strong> Manage all custom requests and offers<br>
+    <strong>URL:</strong> <code>/my-requests</code><br>
+    <strong>Access:</strong> Logged-in users
+</div>
+
+<p><strong>Features:</strong></p>
+<ul>
+    <li>List of all custom requests made with status</li>
+    <li>View/manage offers received</li>
+    <li>Accept/reject offers</li>
+    <li>Edit pending requests</li>
+    <li>Cancel requests</li>
+    <li>Track order progress</li>
+</ul>
+
+<h3>6.3 Admin Custom Requests Dashboard</h3>
+<div class="success-box">
+    <strong>Purpose:</strong> Admin management of custom requests<br>
+    <strong>URL:</strong> <code>/admin/custom-requests</code><br>
+    <strong>Access:</strong> Admin users only
+</div>
+
+<p><strong>Features:</strong></p>
+<ul>
+    <li>Pending requests for approval queue</li>
+    <li>Direct assignment interface</li>
+    <li>Cook selection with pricing tools</li>
+    <li>Bulk operations</li>
+    <li>Analytics and reporting</li>
+    <li>Dispute resolution tools</li>
+</ul>
+
+<h3>6.4 Make Offer Modal/Page</h3>
+<div class="success-box">
+    <strong>Purpose:</strong> Allow cooks to submit offers<br>
+    <strong>Implementation:</strong> Modal overlay or dedicated page<br>
+    <strong>Access:</strong> Triggered from Browse Custom Requests
+</div>
+
+<p><strong>Form Fields:</strong></p>
+<ul>
+    <li>Price per unit/kg (required)</li>
+    <li>Quantity willing to provide (within range)</li>
+    <li>Proposed delivery date (within range)</li>
+    <li>Estimated preparation time</li>
+    <li>Additional notes/questions</li>
+    <li>Terms acceptance checkbox</li>
+</ul>
+
+<h3>6.5 Modifications to Existing Pages</h3>
+
+<h4>6.5.1 My Kitchen Page</h4>
+<ul>
+    <li>Add "Custom Request" option to "Add Dish" flow</li>
+    <li>Separate tab/section for custom requests vs regular dishes</li>
+    <li>Status indicators for custom requests</li>
+</ul>
+
+<h4>6.5.2 Navigation Menu</h4>
+<ul>
+    <li>Add "Browse Custom Requests" for cooks</li>
+    <li>Add "My Requests" for users</li>
+    <li>Update admin menu for custom request management</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>7. Business Rules & Constraints</h2>
+
+<h3>7.1 Time-Based Rules</h3>
+<table class="status-table">
+    <tr>
+        <th>Rule</th>
+        <th>Duration</th>
+        <th>Action on Expiry</th>
+    </tr>
+    <tr>
+        <td>Request Expiry</td>
+        <td>30 days if no offers</td>
+        <td>Auto-archive request</td>
+    </tr>
+    <tr>
+        <td>Offer Expiry</td>
+        <td>7 days if not accepted</td>
+        <td>Auto-reject offers</td>
+    </tr>
+    <tr>
+        <td>Assignment Response</td>
+        <td>48 hours for direct assignments</td>
+        <td>Return to admin for reassignment</td>
+    </tr>
+    <tr>
+        <td>Payment Window</td>
+        <td>1 hour after acceptance</td>
+        <td>Cancel acceptance, return to offers</td>
+    </tr>
+    <tr>
+        <td>Early Cancellation</td>
+        <td>24 hours after payment</td>
+        <td>Full refund available</td>
+    </tr>
+    <tr>
+        <td>Minimum Lead Time</td>
+        <td>48 hours from request creation</td>
+        <td>Delivery date validation</td>
+    </tr>
+</table>
+
+<h3>7.2 Quantity & Pricing Rules</h3>
+<ul>
+    <li><strong>Quantity Ranges:</strong> Must specify min/max for both count and weight</li>
+    <li><strong>Pricing:</strong> Cooks can only offer within reasonable market ranges (admin configurable)</li>
+    <li><strong>Minimum Order Value:</strong> $10 equivalent in local currency</li>
+    <li><strong>Maximum Order Value:</strong> $500 equivalent per request</li>
+</ul>
+
+<h3>7.3 Geographic & Delivery Rules</h3>
+<ul>
+    <li><strong>Distance Limitation:</strong> Same 5km radius as regular dishes</li>
+    <li><strong>Delivery Method:</strong> Pickup only (delivery out of scope for v1.0)</li>
+    <li><strong>Location Verification:</strong> Address must be within service area</li>
+</ul>
+
+<h3>7.4 Quality & Safety Rules</h3>
+<ul>
+    <li><strong>Content Moderation:</strong> All descriptions reviewed for appropriate content</li>
+    <li><strong>Cook Verification:</strong> Only verified cooks can make offers</li>
+    <li><strong>Dietary Restrictions:</strong> Clear labeling required for allergens</li>
+    <li><strong>Food Safety:</strong> Compliance with local food handling regulations</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>8. Payment & Financial Flow</h2>
+
+<h3>8.1 Payment Processing</h3>
+<div class="highlight-box">
+    <strong>Payment Method:</strong> Existing Razorpay integration<br>
+    <strong>Payment Timing:</strong> Full payment upfront upon offer acceptance<br>
+    <strong>Currency:</strong> Based on user's country setting
+</div>
+
+<h3>8.2 Refund Policy</h3>
+<table class="status-table">
+    <tr>
+        <th>Scenario</th>
+        <th>Refund Amount</th>
+        <th>Processing Time</th>
+    </tr>
+    <tr>
+        <td>Early Cancellation (within 24 hours)</td>
+        <td>100%</td>
+        <td>1-3 business days</td>
+    </tr>
+    <tr>
+        <td>Cook Cancellation</td>
+        <td>100%</td>
+        <td>1-3 business days</td>
+    </tr>
+    <tr>
+        <td>Late Cancellation (after 24 hours)</td>
+        <td>50%</td>
+        <td>3-5 business days</td>
+    </tr>
+    <tr>
+        <td>No-show by Cook</td>
+        <td>100% + compensation</td>
+        <td>1-3 business days</td>
+    </tr>
+    <tr>
+        <td>Dispute Resolution (case-by-case)</td>
+        <td>Variable</td>
+        <td>5-7 business days</td>
+    </tr>
+</table>
+
+<h3>8.3 Commission Structure</h3>
+<ul>
+    <li><strong>Platform Commission:</strong> Same as regular orders (current rate)</li>
+    <li><strong>Payment Processing Fee:</strong> Standard Razorpay rates</li>
+    <li><strong>Admin Direct Assignment:</strong> Reduced commission rate (admin effort compensation)</li>
+</ul>
+
+<h2>9. Notification System</h2>
+
+<h3>9.1 Notification Triggers</h3>
+<table class="status-table">
+    <tr>
+        <th>Event</th>
+        <th>Recipients</th>
+        <th>Method</th>
+        <th>Timing</th>
+    </tr>
+    <tr>
+        <td>Request Submitted</td>
+        <td>Requester, Admin</td>
+        <td>In-app, Email</td>
+        <td>Immediate</td>
+    </tr>
+    <tr>
+        <td>Request Approved</td>
+        <td>Requester, Nearby Cooks</td>
+        <td>In-app, Push, Email</td>
+        <td>Immediate</td>
+    </tr>
+    <tr>
+        <td>New Offer Received</td>
+        <td>Requester</td>
+        <td>In-app, Push, Email</td>
+        <td>Immediate</td>
+    </tr>
+    <tr>
+        <td>Offer Accepted</td>
+        <td>Cook, Requester</td>
+        <td>In-app, Push, SMS</td>
+        <td>Immediate</td>
+    </tr>
+    <tr>
+        <td>Payment Completed</td>
+        <td>Cook, Requester</td>
+        <td>In-app, Email</td>
+        <td>Immediate</td>
+    </tr>
+    <tr>
+        <td>Order Status Updates</td>
+        <td>Requester</td>
+        <td>In-app, Push</td>
+        <td>Real-time</td>
+    </tr>
+    <tr>
+        <td>Expiry Warnings</td>
+        <td>Relevant Users</td>
+        <td>In-app, Email</td>
+        <td>24 hours before</td>
+    </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>10. API Endpoints Required</h2>
+
+<h3>10.1 Custom Request Management</h3>
+<div class="code-block">
+POST   /api/custom-requests                 // Create new custom request
+GET    /api/custom-requests                 // Browse public requests (with filters)
+GET    /api/custom-requests/my-requests     // Get user's requests
+PUT    /api/custom-requests/:id             // Update request
+DELETE /api/custom-requests/:id             // Cancel request
+POST   /api/custom-requests/:id/approve     // Admin approve request
+POST   /api/custom-requests/:id/reject      // Admin reject request
+POST   /api/custom-requests/:id/assign      // Admin direct assignment
+</div>
+
+<h3>10.2 Offer Management</h3>
+<div class="code-block">
+POST   /api/offers                          // Create new offer
+GET    /api/offers/by-request/:requestId    // Get offers for a request
+GET    /api/offers/my-offers               // Get cook's offers
+PUT    /api/offers/:id                     // Update offer
+DELETE /api/offers/:id                     // Withdraw offer
+POST   /api/offers/:id/accept              // Accept offer
+POST   /api/offers/:id/reject              // Reject offer
+</div>
+
+<h3>10.3 Order & Payment</h3>
+<div class="code-block">
+POST   /api/custom-orders                   // Create order from accepted offer
+GET    /api/custom-orders/my-orders        // Get user's custom orders
+GET    /api/custom-orders/my-sales         // Get cook's custom orders
+PUT    /api/custom-orders/:id/status       // Update order status
+POST   /api/custom-orders/:id/payment      // Process payment
+POST   /api/custom-orders/:id/refund       // Process refund
+</div>
+
+<h2>11. Testing Scenarios</h2>
+
+<h3>11.1 Happy Path Testing</h3>
+<ol>
+    <li>User creates custom request → Admin approves → Cook makes offer → User accepts → Payment succeeds → Order completed</li>
+    <li>Admin direct assignment → Cook accepts → Payment succeeds → Order completed</li>
+</ol>
+
+<h3>11.2 Edge Case Testing</h3>
+<ol>
+    <li>Request expires with no offers</li>
+    <li>Multiple offers on same request</li>
+    <li>Payment failure scenarios</li>
+    <li>Cook cancellation after acceptance</li>
+    <li>User cancellation in various stages</li>
+    <li>Admin reassignment scenarios</li>
+    <li>Concurrent offer acceptances</li>
+</ol>
+
+<h3>11.3 Performance Testing</h3>
+<ul>
+    <li>Load testing with multiple simultaneous custom requests</li>
+    <li>Database performance with large number of offers</li>
+    <li>Notification system scalability</li>
+    <li>Geographic filtering performance</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>12. Implementation Phases</h2>
+
+<h3>Phase 1: Core Functionality (4-6 weeks)</h3>
+<div class="success-box">
+    <ul>
+        <li>Custom request creation and admin approval</li>
+        <li>Basic offer system</li>
+        <li>Payment integration</li>
+        <li>Order management</li>
+        <li>Essential UI components</li>
+    </ul>
+</div>
+
+<h3>Phase 2: Enhanced Features (3-4 weeks)</h3>
+<div class="highlight-box">
+    <ul>
+        <li>Admin direct assignment</li>
+        <li>Advanced filtering and search</li>
+        <li>Comprehensive notification system</li>
+        <li>Analytics dashboard</li>
+        <li>Mobile responsiveness optimization</li>
+    </ul>
+</div>
+
+<h3>Phase 3: Polish & Optimization (2-3 weeks)</h3>
+<div class="warning-box">
+    <ul>
+        <li>Performance optimization</li>
+        <li>Advanced testing and bug fixes</li>
+        <li>User experience improvements</li>
+        <li>Documentation and training materials</li>
+        <li>Production deployment</li>
+    </ul>
+</div>
+
+<h2>13. Success Metrics</h2>
+
+<h3>13.1 Key Performance Indicators</h3>
+<ul>
+    <li><strong>Request Fulfillment Rate:</strong> % of custom requests that result in completed orders</li>
+    <li><strong>Average Response Time:</strong> Time from request approval to first offer</li>
+    <li><strong>Cook Participation Rate:</strong> % of active cooks making custom offers</li>
+    <li><strong>Customer Satisfaction:</strong> Rating scores for custom orders</li>
+    <li><strong>Revenue Impact:</strong> Revenue generated from custom requests vs regular orders</li>
+</ul>
+
+<h3>13.2 Success Targets (6 months post-launch)</h3>
+<ul>
+    <li>60% request fulfillment rate</li>
+    <li>Average 24-hour response time for first offer</li>
+    <li>30% of active cooks participating in custom requests</li>
+    <li>4.5+ average rating for custom orders</li>
+    <li>15% of total platform revenue from custom requests</li>
+</ul>
+
+<div class="document-info">
+    <h2 class="center">Document Control</h2>
+    <div class="center">
+        <strong>Document Owner:</strong> Product Team<br>
+        <strong>Technical Review:</strong> Development Team<br>
+        <strong>Business Review:</strong> Stakeholders<br>
+        <strong>Approval Status:</strong> Ready for Development<br>
+        <strong>Next Review Date:</strong> Post-Phase 1 Completion
+    </div>
+</div>
+
+</body>
+</html>
